@@ -15,7 +15,7 @@ async def ban_ruletka(message: types.Message):
     if f'{message.chat.id}' not in allow_chats:
         return await message.reply(group_error_msg)
 
-    await message.answer_animation(animation="CgACAgQAAxkBAAEJDbFgLozXqRpLfnQhHFGBhNKT9WWykAACIgIAAv7A7FJ4ZeX1NcgULh4E",
+    await message.answer_photo(photo="https://imgur.com/HfxZRPC?r",
                                    caption="Крутим рулетку...")
     await asyncio.sleep(2)
     msg = await message.answer(text='Вам...')
