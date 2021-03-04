@@ -3,7 +3,7 @@ import random
 
 from aiogram import types
 from aiogram.types import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
-from misc import dp, bot, allow_chats, group_error_msg, realms_link, first, third, second, valutamsg
+from misc import dp, bot, allow_chats, group_error_msg, realms_link_test, realms_link, first, third, second, valutamsg, auk
 
 
 @dp.message_handler(commands=['start'])
@@ -34,7 +34,7 @@ async def surv(message: types.Message):
     if f'{message.chat.id}' not in allow_chats:
         return await message.reply(group_error_msg)
 
-    t = f" ➤ Актуальная ссылка на сервер: {realms_link}"
+    t = f" ➤ Актуальная ссылка на сервер: {realms_link}\n➤ Актуальная ссылка на тестовый сервер: {realms_link_test}"
     msg = await message.reply(t)
     kb = InlineKeyboardMarkup().add(InlineKeyboardButton('Закрыть', callback_data=f'close {msg.message_id}'
                                                                                   f' {message.from_user.id}'
@@ -51,7 +51,6 @@ async def surv(message: types.Message):
     try: await bot.delete_message(chat_id=message.chat.id, message_id=msg.message_id)
     except Exception: pass
 
-
 @dp.message_handler(commands=['инфа'], commands_prefix='!')
 async def infa(message: types.Message):
     # Проверка на группу
@@ -66,6 +65,7 @@ async def infa(message: types.Message):
     kb.insert(InlineKeyboardButton('О налогах', callback_data=f'infa nalogi' + args))
     kb.insert(InlineKeyboardButton('О паспорте', callback_data=f'infa pasport' + args))
     kb.insert(InlineKeyboardButton('Валюта', callback_data=f'infa valuta' + args))
+    kb.insert(InlineKeyboardButton('Аукцион', callback_data=f'infa auk' + args))
     btn_close = InlineKeyboardButton('Закрыть', callback_data=f'close {msg.message_id}'
                                                               f' {message.from_user.id}'
                                                               f' {message.message_id}')
@@ -100,6 +100,9 @@ async def process_callback_infa(callback_query: types.CallbackQuery):
         await bot.edit_message_text(text, chat_id=callback_query.message.chat.id, message_id=msg, reply_markup=kb)
     elif f'{args[1]}' == 'valuta':
         text = random.choice(valutamsg)
+        await bot.edit_message_text(text, chat_id=callback_query.message.chat.id, message_id=msg, reply_markup=kb)
+    elif f'{args[1]}' == 'auk':
+        text = random.choice(auk)
         await bot.edit_message_text(text, chat_id=callback_query.message.chat.id, message_id=msg, reply_markup=kb)
 
 
